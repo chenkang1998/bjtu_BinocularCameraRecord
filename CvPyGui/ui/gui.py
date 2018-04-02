@@ -128,7 +128,7 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "北京交通大学—-计算机学院"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "北京交通大学———midas"))
         self.original_name_lbl.setText(_translate("MainWindow", "camera1"))
         self.original_frame_lbl.setText(_translate("MainWindow", "TextLabel"))
         self.processed_name_lbl.setText(_translate("MainWindow", "camera2"))

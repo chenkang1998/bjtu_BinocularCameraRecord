@@ -84,6 +84,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
 
     def loop1(self,text,w=640,h=480):
         cap = cv2.VideoCapture(int(text))
+        cap.set(6 ,cv2.VideoWriter_fourcc('M', 'J', 'P', 'G') );
         global capnum1
         capnum1 = int(text)
         cap.set(3,w);
@@ -98,7 +99,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             ret, frame = cap.read() 
             if shotmark1 == 1:
                 fn = self.lineEdit.text()
-                name = fn + "video1.jpg"
+                name = "photo/"+fn + "video1.jpg"
                 cv2.imwrite(name, frame)
                 shotmark1 = 0
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -116,6 +117,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
 
     def loop2(self,text,w=640,h=480):
         cap = cv2.VideoCapture(int(text))
+        cap.set(6 ,cv2.VideoWriter_fourcc('M', 'J', 'P', 'G') );
         global capnum2
         capnum2 = int(text)
         cap.set(3,w);
@@ -128,7 +130,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             ret, frame = cap.read() 
             if shotmark2 == 1:
                 fn = self.lineEdit.text()
-                name = fn + "video2.jpg"
+                name = "photo/" + fn + "video2.jpg"
                 cv2.imwrite(name, frame)
                 shotmark2 = 0
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -143,7 +145,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
         p2.setDaemon(True)
         p2.start()
 
-    def threadRe(self,text="",w=640,h=480):
+    def threadRe(self,text="",w=1280,h=720):
         global stop
         stop = 0
         c = 1
@@ -152,12 +154,18 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
         if capnum1 == capnum2:
             c = 0
         cap1 = cv2.VideoCapture(capnum1)
+        cap1.set(6 ,cv2.VideoWriter_fourcc('M', 'J', 'P', 'G') );
+        cap1.set(3,w);
+        cap1.set(4,h);
         if c != 0:
             cap2 = cv2.VideoCapture(capnum2)
-            name2 = fn + "video2.avi"
-            out2 = cv2.VideoWriter(name2,fourcc, 20.0, (640,480))
-        name1 = fn + "video1.avi"
-        out1 = cv2.VideoWriter(name1,fourcc, 20.0, (640,480))
+            cap2.set(6 ,cv2.VideoWriter_fourcc('M', 'J', 'P', 'G') );
+            cap2.set(3,w);
+            cap2.set(4,h);
+            name2 = "video/" + fn + "video2.avi"
+            out2 = cv2.VideoWriter(name2,fourcc, 20.0, (w,h))
+        name1 = "video/" + fn + "video1.avi"
+        out1 = cv2.VideoWriter(name1,fourcc, 20.0, (w,h))
         
         while(cap1.isOpened()):
                 ret1, frame1 = cap1.read()
@@ -201,6 +209,8 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
         global shotmark2
         shotmark2 = 1
 
+    def about(self):
+        print ("123")
 
 
     def createButtons(self):
@@ -220,6 +230,8 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
         self.startButton.clicked.connect(self.startRe)
         self.endButton.clicked.connect(self.endRe)
         self.shotButton.clicked.connect(self.shotP)
+        self.actionAbout.triggered.connect(self.about)  
+
         # Checkbox for countours
         # self.countours_check_box.stateChanged.connect(self.calculateOriginal)
         # Button for selecting image
