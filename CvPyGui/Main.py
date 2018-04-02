@@ -1,6 +1,6 @@
 import cv2
 import numpy as np
-from PyQt5.QtWidgets import (QMainWindow, QApplication, QFileDialog)
+from PyQt5.QtWidgets import (QMainWindow, QApplication, QFileDialog,QMessageBox)
 import threading
 import threadpool 
 from CvPyGui import ImageCvQtContainer
@@ -99,7 +99,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             ret, frame = cap.read() 
             if shotmark1 == 1:
                 fn = self.lineEdit.text()
-                name = "photo/"+fn + "video1.jpg"
+                name = "photo/1_"+fn + "video.jpg"
                 cv2.imwrite(name, frame)
                 shotmark1 = 0
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -130,7 +130,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             ret, frame = cap.read() 
             if shotmark2 == 1:
                 fn = self.lineEdit.text()
-                name = "photo/" + fn + "video2.jpg"
+                name = "photo/2_" + fn + "video.jpg"
                 cv2.imwrite(name, frame)
                 shotmark2 = 0
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -162,9 +162,9 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             cap2.set(6 ,cv2.VideoWriter_fourcc('M', 'J', 'P', 'G') );
             cap2.set(3,w);
             cap2.set(4,h);
-            name2 = "video/" + fn + "video2.avi"
+            name2 = "video/2_" + fn + "video.avi"
             out2 = cv2.VideoWriter(name2,fourcc, 20.0, (w,h))
-        name1 = "video/" + fn + "video1.avi"
+        name1 = "video/1_" + fn + "video.avi"
         out1 = cv2.VideoWriter(name1,fourcc, 20.0, (w,h))
         
         while(cap1.isOpened()):
@@ -210,7 +210,12 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
         shotmark2 = 1
 
     def about(self):
-        print ("123")
+        QMessageBox.about(self, "双目相机录制程序",
+                "<p>北京交通大学计算机学院  midas "
+                "<p>作者：Anonymouslycn"
+                "<p>开源协议：MIT "
+                "<p>https://github.com/anonymouslycn/bjtu_BinocularCameraRecord ")
+
 
 
     def createButtons(self):
