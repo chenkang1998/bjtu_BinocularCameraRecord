@@ -1,10 +1,13 @@
 if __name__ == '__main__':
-    import sys
+    import sys,platform
     from PyQt5.QtWidgets import QApplication
     from CvPyGui import Main
-    import ctypes  
-    
-    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("myappid")  
+
+    if platform.system() == "Windows":
+        import ctypes  
+        ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID("myappid")
+
+  
     app = QApplication(sys.argv)
     window = Main.MyApp()
     window.show()
