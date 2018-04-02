@@ -5,6 +5,7 @@ import threading
 import threadpool 
 from CvPyGui import ImageCvQtContainer
 from CvPyGui.ui import gui
+import time
 
 Ui_MainWindow = gui.Ui_MainWindow
 
@@ -99,7 +100,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             ret, frame = cap.read() 
             if shotmark1 == 1:
                 fn = self.lineEdit.text()
-                name = "photo/1_"+fn + "video.jpg"
+                name = "photo/1_"+fn + "video"+str(int(time.time()))+".jpg"
                 cv2.imwrite(name, frame)
                 shotmark1 = 0
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -130,7 +131,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             ret, frame = cap.read() 
             if shotmark2 == 1:
                 fn = self.lineEdit.text()
-                name = "photo/2_" + fn + "video.jpg"
+                name = "photo/2_" + fn + "video"+str(int(time.time()))+".jpg"
                 cv2.imwrite(name, frame)
                 shotmark2 = 0
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -162,9 +163,9 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             cap2.set(6 ,cv2.VideoWriter_fourcc('M', 'J', 'P', 'G') );
             cap2.set(3,w);
             cap2.set(4,h);
-            name2 = "video/2_" + fn + "video.avi"
+            name2 = "video/2_" + fn + "video"+str(int(time.time()))+".avi"
             out2 = cv2.VideoWriter(name2,fourcc, 20.0, (w,h))
-        name1 = "video/1_" + fn + "video.avi"
+        name1 = "video/1_" + fn + "video"+str(int(time.time()))+".avi"
         out1 = cv2.VideoWriter(name1,fourcc, 20.0, (w,h))
         
         while(cap1.isOpened()):
