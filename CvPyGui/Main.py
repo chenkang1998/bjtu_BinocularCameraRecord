@@ -1,4 +1,4 @@
-import cv2
+import cv2,os
 import numpy as np
 from PyQt5.QtWidgets import (QMainWindow, QApplication, QFileDialog,QMessageBox)
 import threading
@@ -83,7 +83,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
         global p2
 
 
-    def loop1(self,text,w=640,h=480):
+    def loop1(self,text,w=1280,h=720):
         cap = cv2.VideoCapture(int(text))
         cap.set(6 ,cv2.VideoWriter_fourcc('M', 'J', 'P', 'G') );
         global capnum1
@@ -100,7 +100,9 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             ret, frame = cap.read() 
             if shotmark1 == 1:
                 fn = self.lineEdit.text()
-                name = "photo/1_"+fn + "video"+str(int(time.time()))+".jpg"
+                name = "photo/1_"+fn + "video.jpg"
+                if os.path.exists(name):
+                    name = "photo/1_"+fn + "video"+str(int(time.time()))+".jpg"
                 cv2.imwrite(name, frame)
                 shotmark1 = 0
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -109,14 +111,14 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
         cv_img_rgb = np.zeros((700,700,3))
         self.original1_image.updateImage(cv_img_rgb)
 
-    def selecamera1act(self,text,w=640,h=480):
+    def selecamera1act(self,text,w=1280,h=720):
         global p1
         p1=threading.Thread(target=self.loop1,args=(text,w,h))
         p1.setDaemon(True)
         p1.start()
          # threading.Thread.start_new_thread(loop1,text,w=640,h=480)
 
-    def loop2(self,text,w=640,h=480):
+    def loop2(self,text,w=1280,h=720):
         cap = cv2.VideoCapture(int(text))
         cap.set(6 ,cv2.VideoWriter_fourcc('M', 'J', 'P', 'G') );
         global capnum2
@@ -131,7 +133,9 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             ret, frame = cap.read() 
             if shotmark2 == 1:
                 fn = self.lineEdit.text()
-                name = "photo/2_" + fn + "video"+str(int(time.time()))+".jpg"
+                name = "photo/2_"+fn + "video.jpg"
+                if os.path.exists(name):
+                    name = "photo/2_" + fn + "video"+str(int(time.time()))+".jpg"
                 cv2.imwrite(name, frame)
                 shotmark2 = 0
             frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -140,7 +144,7 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
         cv_img_rgb = np.zeros((700,700,3))
         self.original2_image.updateImage(cv_img_rgb)
 
-    def selecamera2act(self,text,w=640,h=480):
+    def selecamera2act(self,text,w=1280,h=720):
         global p2
         p2=threading.Thread(target=self.loop2,args=(text,w ,h ))
         p2.setDaemon(True)
@@ -163,9 +167,13 @@ class MyApp(QMainWindow, Ui_MainWindow, threading.Thread):
             cap2.set(6 ,cv2.VideoWriter_fourcc('M', 'J', 'P', 'G') );
             cap2.set(3,w);
             cap2.set(4,h);
-            name2 = "video/2_" + fn + "video"+str(int(time.time()))+".avi"
+            name2 = "video/2_" + fn + "video.avi"
+            if os.path.exists(name2):
+                name2 = "video/2_" + fn + "video"+str(int(time.time()))+".avi"
             out2 = cv2.VideoWriter(name2,fourcc, 20.0, (w,h))
-        name1 = "video/1_" + fn + "video"+str(int(time.time()))+".avi"
+        name1 = "video/1_" + fn + "video.avi"
+        if os.path.exists(name1):
+            name1 = "video/1_" + fn + "video"+str(int(time.time()))+".avi"
         out1 = cv2.VideoWriter(name1,fourcc, 20.0, (w,h))
         
         while(cap1.isOpened()):

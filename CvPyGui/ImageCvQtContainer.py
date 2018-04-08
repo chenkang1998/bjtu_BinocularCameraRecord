@@ -1,7 +1,6 @@
-from PyQt5.QtGui import QPixmap, QImage
-from PyQt5.QtWidgets import QWidget, QFileDialog
-import cv2
-
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+from PyQt5.QtCore import Qt
 
 class Image(QWidget):
     """Common base for the images"""
@@ -11,6 +10,9 @@ class Image(QWidget):
 
         # Label (frame) where the original image will be located, with scaling
         self.frame_lbl = label
+        # self.frame_lbl.setScaledContents(True)
+        print (self.frame_lbl.size())
+
 
     def updateImage(self, opencv_rgb_image):
 
@@ -20,8 +22,10 @@ class Image(QWidget):
         bytesPerLine = 3 * width
         self.q_image = QImage(self.cv_img_rgb.data, width,
                               height, bytesPerLine, QImage.Format_RGB888)
+        # self.QPixmap=QPixmap.fromImage(self.q_image)
+        # scaredPixmap = self.QPixmap.scaled(self,self.frame_lbl.frameSize, aspectRatioMode=Qt.IgnoreAspectRatio)
+        self.frame_lbl.setPixmap(QPixmap.fromImage(self.q_image).scaled(self.frame_lbl.size(), aspectRatioMode=Qt.KeepAspectRatio))
 
-        self.frame_lbl.setPixmap(QPixmap.fromImage(self.q_image))
 
     def saveImage(self):
         # Function for saving the processed image
